@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import YoMeetup from './components/YoMeetup';
 
 class App extends Component {
     render() {
         return (
-            <div className="App">
-                <div className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <h2>YoMeetup</h2>
-                </div>
-            </div>
+            <MuiThemeProvider>
+                <YoMeetup />
+            </MuiThemeProvider>
         );
     }
 }

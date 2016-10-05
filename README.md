@@ -22,3 +22,4 @@ The app is a work in progress
 ## Credited Services
 
 - [Udacity Senior Web Developer Course](https://www.udacity.com/course/senior-web-developer-nanodegree-by-google--nd802)
+- [Create React App](https://github.com/facebookincubator/create-react-app)
