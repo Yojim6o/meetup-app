@@ -8,7 +8,9 @@ class TodoComponent extends Component {
                 <li key={ index }>
                     { item.text }
                     <span
-                        onClick={ self.props.removeItem.bind(null, item['.key']) }
+                        onClick={
+                            self.props.removeItem.bind(null, item['.key'])
+                        }
                         style={
                             { color: 'red', marginLeft: '10px', cursor: 'pointer' }
                         }

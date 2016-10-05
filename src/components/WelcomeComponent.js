@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import TodoComponent from './TodoComponent';
 
-class WelcomeComponent extends Component {
+class HomeComponent extends Component {
 
     constructor() {
         super();
@@ -14,7 +14,7 @@ class WelcomeComponent extends Component {
     }
 
     componentWillMount() {
-        var config = {
+        const config = {
             apiKey: "",
             authDomain: "yomeetup.firebaseapp.com",
             databaseURL: "https://yomeetup.firebaseio.com"
@@ -24,10 +24,10 @@ class WelcomeComponent extends Component {
 
         this.firebaseRef = firebase.database().ref('todoApp/items');
         this.firebaseRef.limitToLast(25).on('value', function(dataSnapshot) {
-            var items = [];
+            const items = [];
 
             dataSnapshot.forEach(function(childSnapshot) {
-                var item = childSnapshot.val();
+                const item = childSnapshot.val();
                 item['.key'] = childSnapshot.key;
                 items.push(item);
             });
@@ -49,16 +49,17 @@ class WelcomeComponent extends Component {
     }
 
     removeItem(key) {
-        var firebaseRef = firebase.database().ref('todoApp/items');
+        const firebaseRef = firebase.database().ref('todoApp/items');
         firebaseRef.child(key).remove();
     }
 
     handleSubmit(e) {
         e.preventDefault();
+        const { text } = this.state;
 
-        if (this.state.text && this.state.text.trim().length !== 0) {
+        if (text && text.trim().length !== 0) {
             this.firebaseRef.push({
-                text: this.state.text
+                text: text
             });
             this.setState({
                 text: ''
@@ -67,16 +68,18 @@ class WelcomeComponent extends Component {
     }
 
     render() {
+        const { items, text } = this.state;
+
         return (
             <div>
-                <TodoComponent items={ this.state.items } removeItem={ this.removeItem } />
+                <TodoComponent items={ items } removeItem={ this.removeItem } />
                 <form onSubmit={ (e) => this.handleSubmit(e) }>
-                    <input onChange={ (e) => this.onChange(e) } value={ this.state.text } />
-                    <button>{ 'Add #' + (this.state.items.length + 1) }</button>
+                    <input onChange={ (e) => this.onChange(e) } value={ text } />
+                    <button>{ 'Add #' + (items.length + 1) }</button>
                 </form>
             </div>
         );
     }
 }
 
-export default WelcomeComponent;
+export default HomeComponent;
