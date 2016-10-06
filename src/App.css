@@ -1,5 +1,5 @@
 .App-header {
-    text-align: center;
+    text-align: left;
 }
 
 .centered {
@@ -12,4 +12,9 @@
 
 .button {
     margin: 10px;
+}
+
+.welcome-message {
+    font-size: 20px;
+    margin: 0 0 20px 0;
 }

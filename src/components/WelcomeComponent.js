@@ -1,11 +1,31 @@
-import React from 'react';
+import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
+import { browserHistory } from 'react-router';
 
-const RaisedButtonExampleSimple = () => (
-    <div className="centered">
-        <RaisedButton className="button" label="Sign In" />
-        <RaisedButton className="button" label="Sign Up" primary={true} />
-    </div>
-);
+class WelcomeComponent extends Component {
 
-export default RaisedButtonExampleSimple;
+    submit(route) {
+        browserHistory.push(`/${route}`);
+    }
+
+    render() {
+        return (
+            <div className="centered">
+                <center className="welcome-message">Welcome!</center>
+                <RaisedButton
+                    className="button"
+                    label="Sign In"
+                    onClick={ ()=> this.submit('signin') }
+                />
+                <RaisedButton
+                    className="button"
+                    label="Sign Up"
+                    primary={true}
+                    onClick={ ()=> this.submit('signup') }
+                />
+            </div>
+        );
+    }
+};
+
+export default WelcomeComponent;

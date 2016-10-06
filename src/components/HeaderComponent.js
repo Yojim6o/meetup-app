@@ -1,54 +1,32 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
-// import FlatButton from 'material-ui/FlatButton';
-// import Toggle from 'material-ui/Toggle';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-// import NavigationClose from 'material-ui/svg-icons/navigation/close';
-// import injectTapEventPlugin from 'react-tap-event-plugin';
+import Menu from 'material-ui/svg-icons/navigation/menu';
+import Drawer from 'material-ui/Drawer';
+import Arrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+import { browserHistory } from 'react-router';
 
-// class Login extends Component {
-//     static muiName = 'FlatButton';
+class HeaderComponent extends Component {
 
-//     render() {
-//         return (
-//             <FlatButton {...this.props} label="Login" />
-//         );
-//     }
-// }
+    constructor() {
+        super();
 
-// const Logged = (props) => (
-//     <IconMenu
-//         {...props}
-//         iconButtonElement={
-//             <IconButton><MoreVertIcon /></IconButton>
-//         }
-//         targetOrigin={{horizontal: 'right', vertical: 'top'}}
-//         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-//     >
-//         <MenuItem primaryText="Refresh" />
-//         <MenuItem primaryText="Help" />
-//         <MenuItem primaryText="Sign out" />
-//     </IconMenu>
-// );
+        this.state = {
+            open: false
+        };
+    }
 
-// Logged.muiName = 'IconMenu';
+    handleOpen = () => this.setState(
+        { open: !this.state.open }
+    );
 
-/**
- * This example is taking advantage of the composability of the `AppBar`
- * to render different components depending on the application state.
- */
-class AppBarExampleComposition extends Component {
-
-    state = {
-        logged: true,
-    };
-
-    handleChange = (event, logged) => {
-        this.setState({logged: logged});
-    };
+    handleClose = (route) => {
+        this.setState({ open: false });
+        if (route !== '') {
+            browserHistory.push(route);
+        }
+    }
 
     render() {
         return (
@@ -56,23 +34,60 @@ class AppBarExampleComposition extends Component {
                 <AppBar
                     className="App-header"
                     title="YoMeetup"
-                    iconElementLeft={<div></div>}
+                    iconElementLeft={ <div /> }
                     iconElementRight={
-                        <IconMenu
-                            iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                            anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                            targetOrigin={{horizontal: 'right', vertical: 'top'}}
+                        <IconButton
+                            onTouchTap={ this.handleOpen }
                         >
-                            <MenuItem primaryText="Refresh" />
-                            <MenuItem primaryText="Send feedback" />
-                            <MenuItem primaryText="Settings" />
-                            <MenuItem primaryText="Help" />
-                            <MenuItem primaryText="Sign out" />
-                        </IconMenu>}
+                            <Menu />
+                        </IconButton>
+                    }
                 />
+                <Drawer
+                    docked={ false }
+                    width={ 200 }
+                    openSecondary={ true }
+                    open={ this.state.open }
+                    onRequestChange={ (open) => this.setState({ open }) }
+                >
+                    <AppBar
+                        iconElementLeft={
+                            <IconButton
+                                onTouchTap={ () => this.handleClose('') }
+                            >
+                                <Arrow />
+                            </IconButton>
+                        }
+                    />
+                    <MenuItem
+                        onTouchTap={ () => this.handleClose('/') }
+                    >
+                        Home
+                    </MenuItem>
+                    <MenuItem
+                        onTouchTap={ () => this.handleClose('signin') }
+                    >
+                        Sign In
+                    </MenuItem>
+                    <MenuItem
+                        onTouchTap={ () => this.handleClose('signout') }
+                    >
+                        Sign Out
+                    </MenuItem>
+                    <MenuItem
+                        onTouchTap={ () => this.handleClose('signup') }
+                    >
+                        Sign Up
+                    </MenuItem>
+                    <MenuItem
+                        onTouchTap={ () => this.handleClose('feature') }
+                    >
+                        Events
+                    </MenuItem>
+                </Drawer>
             </div>
         );
     }
 }
 
-export default AppBarExampleComposition;
+export default HeaderComponent;
