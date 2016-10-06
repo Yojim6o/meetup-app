@@ -10,7 +10,7 @@ class WelcomeComponent extends Component {
 
     render() {
         return (
-            <div className="centered">
+            <div className="centered content">
                 <center className="welcome-message">Welcome!</center>
                 <RaisedButton
                     className="button"

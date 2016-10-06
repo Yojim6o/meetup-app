@@ -9,6 +9,8 @@ import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
 
 import NameEmailFormComponent from './NameEmailFormComponent';
+import PasswordFormComponent from './PasswordFormComponent';
+import OptionalFormComponent from './OptionalFormComponent';
 
 class SignupComponent extends Component {
 
@@ -40,11 +42,11 @@ class SignupComponent extends Component {
                 );
             case 1:
                 return (
-                    'What is an ad group anyways?'
+                    <PasswordFormComponent />
                 );
             case 2:
                 return (
-                    'This is the bit I really care about!'
+                    <OptionalFormComponent />
                 );
             default:
                 return ('You\'re a long way from home sonny jim!');

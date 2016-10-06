@@ -12,7 +12,7 @@ class FeatureComponent extends Component {
         }
     }
 
-    componentDidMount() {
+    componentWillMount() {
         const config = {
             apiKey: "",
             authDomain: "yomeetup.firebaseapp.com",

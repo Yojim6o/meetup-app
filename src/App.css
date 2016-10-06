@@ -3,11 +3,14 @@
 }
 
 .centered {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  margin-top: -50px;
-  margin-left: -100px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.content {
+    width: 220px;
 }
 
 .button {
@@ -17,4 +20,8 @@
 .welcome-message {
     font-size: 20px;
     margin: 0 0 20px 0;
+}
+
+.link {
+    text-decoration: none
 }

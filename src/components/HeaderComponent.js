@@ -5,7 +5,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Menu from 'material-ui/svg-icons/navigation/menu';
 import Drawer from 'material-ui/Drawer';
 import Arrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
-import { browserHistory } from 'react-router';
+import { Link } from 'react-router';
 
 class HeaderComponent extends Component {
 
@@ -21,11 +21,8 @@ class HeaderComponent extends Component {
         { open: !this.state.open }
     );
 
-    handleClose = (route) => {
+    handleClose = () => {
         this.setState({ open: false });
-        if (route !== '') {
-            browserHistory.push(route);
-        }
     }
 
     render() {
@@ -52,38 +49,36 @@ class HeaderComponent extends Component {
                 >
                     <AppBar
                         iconElementLeft={
-                            <IconButton
-                                onTouchTap={ () => this.handleClose('') }
-                            >
+                            <IconButton onTouchTap={ this.handleClose }>
                                 <Arrow />
                             </IconButton>
                         }
                     />
-                    <MenuItem
-                        onTouchTap={ () => this.handleClose('/') }
-                    >
-                        Home
-                    </MenuItem>
-                    <MenuItem
-                        onTouchTap={ () => this.handleClose('signin') }
-                    >
-                        Sign In
-                    </MenuItem>
-                    <MenuItem
-                        onTouchTap={ () => this.handleClose('signout') }
-                    >
-                        Sign Out
-                    </MenuItem>
-                    <MenuItem
-                        onTouchTap={ () => this.handleClose('signup') }
-                    >
-                        Sign Up
-                    </MenuItem>
-                    <MenuItem
-                        onTouchTap={ () => this.handleClose('feature') }
-                    >
-                        Events
-                    </MenuItem>
+                    <Link to="/" className="link">
+                        <MenuItem onTouchTap={ this.handleClose }>
+                            Home
+                        </MenuItem>
+                    </Link>
+                    <Link to="/signin" className="link">
+                        <MenuItem onTouchTap={ this.handleClose }>
+                            Sign In
+                        </MenuItem>
+                    </Link>
+                    <Link to="/signout" className="link">
+                        <MenuItem onTouchTap={ this.handleClose }>
+                            Sign Out
+                        </MenuItem>
+                    </Link>
+                    <Link to="/signup" className="link">
+                        <MenuItem onTouchTap={ this.handleClose }>
+                            Sign Up
+                        </MenuItem>
+                    </Link>
+                    <Link href="/feature" className="link">
+                        <MenuItem onTouchTap={ this.handleClose }>
+                            Events
+                        </MenuItem>
+                    </Link>
                 </Drawer>
             </div>
         );
