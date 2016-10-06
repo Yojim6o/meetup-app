@@ -1,85 +1,11 @@
-import React, { Component } from 'react';
-import firebase from 'firebase';
-import TodoComponent from './TodoComponent';
+import React from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
 
-class HomeComponent extends Component {
+const RaisedButtonExampleSimple = () => (
+    <div className="centered">
+        <RaisedButton className="button" label="Sign In" />
+        <RaisedButton className="button" label="Sign Up" primary={true} />
+    </div>
+);
 
-    constructor() {
-        super();
-
-        this.state = {
-            items: [],
-            text: ''
-        }
-    }
-
-    componentWillMount() {
-        const config = {
-            apiKey: "",
-            authDomain: "yomeetup.firebaseapp.com",
-            databaseURL: "https://yomeetup.firebaseio.com"
-        };
-
-        firebase.initializeApp(config);
-
-        this.firebaseRef = firebase.database().ref('todoApp/items');
-        this.firebaseRef.limitToLast(25).on('value', function(dataSnapshot) {
-            const items = [];
-
-            dataSnapshot.forEach(function(childSnapshot) {
-                const item = childSnapshot.val();
-                item['.key'] = childSnapshot.key;
-                items.push(item);
-            });
-
-            this.setState({
-                items: items
-            });
-
-        }.bind(this));
-
-    }
-
-    componentWillUnmount() {
-        this.firebaseRef.off();
-    }
-
-    onChange(e) {
-        this.setState({text: e.target.value});
-    }
-
-    removeItem(key) {
-        const firebaseRef = firebase.database().ref('todoApp/items');
-        firebaseRef.child(key).remove();
-    }
-
-    handleSubmit(e) {
-        e.preventDefault();
-        const { text } = this.state;
-
-        if (text && text.trim().length !== 0) {
-            this.firebaseRef.push({
-                text: text
-            });
-            this.setState({
-                text: ''
-            });
-        }
-    }
-
-    render() {
-        const { items, text } = this.state;
-
-        return (
-            <div>
-                <TodoComponent items={ items } removeItem={ this.removeItem } />
-                <form onSubmit={ (e) => this.handleSubmit(e) }>
-                    <input onChange={ (e) => this.onChange(e) } value={ text } />
-                    <button>{ 'Add #' + (items.length + 1) }</button>
-                </form>
-            </div>
-        );
-    }
-}
-
-export default HomeComponent;
+export default RaisedButtonExampleSimple;

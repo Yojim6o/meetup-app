@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import HeaderComponent from './components/HeaderComponent';
+
 class App extends Component {
     render() {
         return (
-            <div className="App">
-                <div className="App-header">
-                    <h2>YoMeetup</h2>
-                </div>
+            <div>
+                <HeaderComponent />
                 { this.props.children }
             </div>
         );
