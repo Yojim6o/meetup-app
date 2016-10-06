@@ -12,7 +12,7 @@ class FeatureComponent extends Component {
         }
     }
 
-    componentWillMount() {
+    handleFirebase() {
         const config = {
             apiKey: "",
             authDomain: "yomeetup.firebaseapp.com",
@@ -36,7 +36,14 @@ class FeatureComponent extends Component {
             });
 
         }.bind(this));
+    }
 
+    componentWillMount() {
+        this.handleFirebase();
+    }
+
+    componentWillReceiveProps() {
+        this.handleFirebase();
     }
 
     componentWillUnmount() {

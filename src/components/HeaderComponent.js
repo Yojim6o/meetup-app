@@ -74,7 +74,7 @@ class HeaderComponent extends Component {
                             Sign Up
                         </MenuItem>
                     </Link>
-                    <Link href="/feature" className="link">
+                    <Link to="/feature" className="link">
                         <MenuItem onTouchTap={ this.handleClose }>
                             Events
                         </MenuItem>
