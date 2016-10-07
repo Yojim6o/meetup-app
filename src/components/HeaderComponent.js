@@ -6,6 +6,7 @@ import Menu from 'material-ui/svg-icons/navigation/menu';
 import Drawer from 'material-ui/Drawer';
 import Arrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import { Link } from 'react-router';
+import * as firebase from 'firebase';
 
 class HeaderComponent extends Component {
 
@@ -13,7 +14,8 @@ class HeaderComponent extends Component {
         super();
 
         this.state = {
-            open: false
+            open: false,
+            loggedIn: (null !== firebase.auth().currentUser)
         };
     }
 
@@ -23,6 +25,21 @@ class HeaderComponent extends Component {
 
     handleClose = () => {
         this.setState({ open: false });
+    }
+
+    componentWillMount() {
+        firebase.auth().onAuthStateChanged(firebaseUser => {
+
+            this.setState({
+                loggedIn: (null !== firebaseUser)
+            })
+
+            if (firebaseUser) {
+                console.log("Logged IN", firebaseUser);
+            } else {
+                console.log('Not logged in');
+            }
+        });
     }
 
     render() {
@@ -54,31 +71,39 @@ class HeaderComponent extends Component {
                             </IconButton>
                         }
                     />
-                    <Link to="/" className="link">
-                        <MenuItem onTouchTap={ this.handleClose }>
-                            Home
-                        </MenuItem>
-                    </Link>
-                    <Link to="/signin" className="link">
-                        <MenuItem onTouchTap={ this.handleClose }>
-                            Sign In
-                        </MenuItem>
-                    </Link>
-                    <Link to="/signout" className="link">
-                        <MenuItem onTouchTap={ this.handleClose }>
-                            Sign Out
-                        </MenuItem>
-                    </Link>
-                    <Link to="/signup" className="link">
-                        <MenuItem onTouchTap={ this.handleClose }>
-                            Sign Up
-                        </MenuItem>
-                    </Link>
-                    <Link to="/feature" className="link">
-                        <MenuItem onTouchTap={ this.handleClose }>
-                            Events
-                        </MenuItem>
-                    </Link>
+                    {
+                        this.state.loggedIn ?
+                            <div>
+                                <Link to="/feature" className="link">
+                                    <MenuItem onTouchTap={ this.handleClose }>
+                                        Events
+                                    </MenuItem>
+                                </Link>
+                                <Link to="/signout" className="link">
+                                    <MenuItem onTouchTap={ this.handleClose }>
+                                        Sign Out
+                                    </MenuItem>
+                                </Link>
+                            </div>
+                        :
+                            <div>
+                                <Link to="/" className="link">
+                                    <MenuItem onTouchTap={ this.handleClose }>
+                                        Home
+                                    </MenuItem>
+                                </Link>
+                                <Link to="/signin" className="link">
+                                    <MenuItem onTouchTap={ this.handleClose }>
+                                        Sign In
+                                    </MenuItem>
+                                </Link>
+                                <Link to="/signup" className="link">
+                                    <MenuItem onTouchTap={ this.handleClose }>
+                                        Sign Up
+                                    </MenuItem>
+                                </Link>
+                            </div>
+                    }
                 </Drawer>
             </div>
         );

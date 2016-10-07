@@ -8,12 +8,14 @@ import SigninComponent from './components/SigninComponent';
 import SignupComponent from './components/SignupComponent';
 import SignoutComponent from './components/SignoutComponent';
 
+import requireAuth from './utils/authenticated';
+
 export default(
     <Route path="/" component={App} >
         <IndexRoute component={WelcomeComponent} />
         <Route path="signin" component={SigninComponent} />
         <Route path="signout" component={SignoutComponent} />
         <Route path="signup" component={SignupComponent} />
-        <Route path="feature" component={FeatureComponent} />
+        <Route path="feature" component={FeatureComponent} onEnter={requireAuth} />
     </Route>
 );

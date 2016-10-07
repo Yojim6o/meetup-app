@@ -1,61 +1,54 @@
 import React, { Component } from 'react';
-import {
-    Step,
-    Stepper,
-    StepLabel
-} from 'material-ui/Stepper';
 import RaisedButton from 'material-ui/RaisedButton';
-import FlatButton from 'material-ui/FlatButton';
 import Paper from 'material-ui/Paper';
+import * as firebase from 'firebase';
+import Formsy from 'formsy-react';
+import { FormsyText } from 'formsy-material-ui/lib';
+import { browserHistory } from 'react-router';
 
-import NameEmailFormComponent from './NameEmailFormComponent';
-import PasswordFormComponent from './PasswordFormComponent';
-import OptionalFormComponent from './OptionalFormComponent';
+// import NameEmailFormComponent from './NameEmailFormComponent';
+// import PasswordFormComponent from './PasswordFormComponent';
+// import OptionalFormComponent from './OptionalFormComponent';
 
 class SignupComponent extends Component {
 
-    state = {
-        finished: false,
-        stepIndex: 0,
-    };
+    constructor() {
+        super();
 
-    handleNext = () => {
-        const { stepIndex } = this.state;
-        this.setState({
-            stepIndex: stepIndex + 1,
-            finished: stepIndex >= 2,
+        this.state = {
+            stepIndex: 0,
+            canSubmit: false
+        };
+    }
+
+    enableButton(self) {
+        self.setState({
+            canSubmit: true
         });
-    };
+    }
 
-    handlePrev = () => {
-        const {stepIndex} = this.state;
-        if (stepIndex > 0) {
-            this.setState({stepIndex: stepIndex - 1});
-        }
-    };
+    disableButton(self) {
+        self.setState({
+            canSubmit: false
+        });
+    }
 
-    getStepContent(stepIndex) {
-        switch (stepIndex) {
-            case 0:
-                return (
-                    <NameEmailFormComponent />
-                );
-            case 1:
-                return (
-                    <PasswordFormComponent />
-                );
-            case 2:
-                return (
-                    <OptionalFormComponent />
-                );
-            default:
-                return ('You\'re a long way from home sonny jim!');
-        }
+    notifyFormError(data) {
+        console.error('Form error:', data);
+    }
+
+    submitForm(data) {
+        console.log(data);
+        const { refs } = data;
+        const email = refs.email.state.value;
+        const pw = refs.pw.state.value;
+
+        firebase.auth().createUserWithEmailAndPassword( email, pw )
+            .then( browserHistory.push('/') );
     }
 
     render() {
-        const { finished, stepIndex } = this.state;
-        const contentStyle = { margin: '0 16px' };
+        const self = this;
 
         return (
             <Paper
@@ -68,49 +61,56 @@ class SignupComponent extends Component {
                 } }
                 zDepth={ 2 }
             >
-                <Stepper activeStep={ stepIndex }>
-                    <Step>
-                        <StepLabel>Name/Email</StepLabel>
-                    </Step>
-                    <Step>
-                        <StepLabel>Password</StepLabel>
-                    </Step>
-                    <Step>
-                        <StepLabel>Optional</StepLabel>
-                    </Step>
-                </Stepper>
-                <div style={contentStyle}>
-                    {finished ? (
-                        <p>
-                            <a
-                                href="#"
-                                onClick={(event) => {
-                                    event.preventDefault();
-                                    this.setState({ stepIndex: 0, finished: false });
-                                }}
-                            >
-                                Click here
-                            </a> to reset the example.
-                        </p>
-                    ) : (
-                        <div>
-                            { this.getStepContent(stepIndex) }
-                            <center style={ {marginTop: 40} }>
-                                <FlatButton
-                                    label="Back"
-                                    disabled={ stepIndex === 0 }
-                                    onTouchTap={ this.handlePrev }
-                                    style={ {marginRight: 12} }
-                                />
-                                <RaisedButton
-                                    label={ stepIndex === 2 ? 'Finish' : 'Next' }
-                                    primary={ true }
-                                    onTouchTap={ this.handleNext }
-                                />
-                            </center>
-                        </div>
-                    )}
-                </div>
+                <center>
+                    <Formsy.Form
+                        onValid={ () => this.enableButton(self) }
+                        onInvalid={ () => this.disableButton(self) }
+                        onValidSubmit={ () => this.submitForm(self) }
+                        onInvalidSubmit={ () => this.notifyFormError(self) }
+                    >
+                        <FormsyText
+                            hintText="First Name"
+                            floatingLabelText="Hi! What's your name?"
+                            name="First Name"
+                            validations="isWords"
+                            validationError="Please use letters only"
+                            required
+                        />
+                        <br />
+                        <FormsyText
+                            hintText="john@example.com"
+                            floatingLabelText="Email Address"
+                            ref="email"
+                            name="Email Address"
+                            validations="isEmail"
+                            validationError="This is not a valid email"
+                            required
+                        />
+                        <br />
+                        <FormsyText
+                            floatingLabelText="Password"
+                            type="password"
+                            ref="pw"
+                            name="Password"
+                            required
+                        />
+                        <br />
+                        <FormsyText
+                            floatingLabelText="Verify Password"
+                            type="password"
+                            name="Verify Password"
+                            required
+                        />
+                        <br />
+                        <br />
+                        <RaisedButton
+                            label={ 'Submit' }
+                            primary={ true }
+                            type="submit"
+                            disabled={ !this.state.canSubmit }
+                        />
+                    </Formsy.Form>
+                </center>
             </Paper>
         );
     }
