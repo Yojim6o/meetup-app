@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import { browserHistory } from 'react-router';
+import * as firebase from 'firebase';
 
 class SignoutComponent extends Component {
 
     submit(route) {
         browserHistory.push(`/${route}`);
+    }
+
+    componentDidMount() {
+        firebase.auth().signOut();
     }
 
     render() {

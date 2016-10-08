@@ -6,17 +6,12 @@ import Formsy from 'formsy-react';
 import { FormsyText } from 'formsy-material-ui/lib';
 import { browserHistory } from 'react-router';
 
-// import NameEmailFormComponent from './NameEmailFormComponent';
-// import PasswordFormComponent from './PasswordFormComponent';
-// import OptionalFormComponent from './OptionalFormComponent';
-
 class SignupComponent extends Component {
 
     constructor() {
         super();
 
         this.state = {
-            stepIndex: 0,
             canSubmit: false
         };
     }

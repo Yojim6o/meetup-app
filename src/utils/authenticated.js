@@ -5,7 +5,6 @@ firebase.initializeApp(config);
 
 function requireAuth(nextState, replace) {
 
-    debugger;
     if(null === firebase.auth().currentUser) {
         replace({
           pathname: '/signin',
