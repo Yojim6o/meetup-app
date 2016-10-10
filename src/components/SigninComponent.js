@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
-import { browserHistory } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 import * as firebase from 'firebase';
 import Formsy from 'formsy-react';
 import { FormsyText } from 'formsy-material-ui/lib';
+import FlatButton from 'material-ui/FlatButton';
+import Paper from 'material-ui/Paper';
 
 class SigninComponent extends Component {
 
@@ -18,18 +20,6 @@ class SigninComponent extends Component {
 
     submit(route) {
         browserHistory.push(`/${route}`);
-    }
-
-    enableButton(self) {
-        self.setState({
-            canSubmit: true
-        });
-    }
-
-    disableButton(self) {
-        self.setState({
-            canSubmit: false
-        });
     }
 
     notifyFormError(data) {
@@ -57,39 +47,62 @@ class SigninComponent extends Component {
         const self = this;
 
         return (
-            <center className="centered">
-                <Formsy.Form
-                    onValid={ () => this.enableButton(self) }
-                    onInvalid={ () => this.disableButton(self) }
-                    onValidSubmit={ () => this.submitForm(self) }
-                    onInvalidSubmit={ () => this.notifyFormError(self) }
+            <center
+                className="centered"
+                style={{
+                    width: '90%',
+                    maxWidth: 700
+                }}>
+                <Paper
+                    style={ {
+                        margin: 'auto',
+                        padding: 10,
+                        marginTop: 20
+                    } }
+                    zDepth={ 2 }
                 >
-                    <FormsyText
-                        hintText="john@example.com"
-                        floatingLabelText="Email Address"
-                        ref="email"
-                        name="Email Address"
-                        validations="isEmail"
-                        validationError="This is not a valid email"
-                        required
-                    />
-                    <br />
-                    <FormsyText
-                        floatingLabelText="Password"
-                        type="password"
-                        ref="pw"
-                        name="Password"
-                        required
-                    />
-                    <br />
-                    <br />
-                    <RaisedButton
-                        label={ 'Submit' }
-                        primary={ true }
-                        type="submit"
-                        disabled={ !this.state.canSubmit }
-                    />
-                </Formsy.Form>
+                    <div className="welcome-message">Please Sign In</div>
+                    <Formsy.Form
+                        onValidSubmit={ () => this.submitForm(self) }
+                        onInvalidSubmit={ () => this.notifyFormError(self) }
+                    >
+                        <FormsyText
+                            hintText="john@example.com"
+                            floatingLabelText="Email Address"
+                            ref="email"
+                            name="Email Address"
+                            validations="isEmail"
+                            validationError="This is not a valid email"
+                            required
+                        />
+                        <br />
+                        <FormsyText
+                            floatingLabelText="Password"
+                            type="password"
+                            ref="pw"
+                            name="Password"
+                            required
+                        />
+                        <br />
+                        { this.state.error ?
+                            <div style={{ color: "red" }}>Sorry. Please try again.</div>
+                            : null
+                        }
+                        <br />
+                        <br />
+                        <RaisedButton
+                            className="submit"
+                            label={ 'Submit' }
+                            primary={ true }
+                            type="submit"
+                        />
+                    </Formsy.Form>
+                </Paper>
+                <br />
+                <br />
+                <Link to="/signup" className="link">
+                    <FlatButton label="Create Account" />
+                </Link>
             </center>
         );
     }

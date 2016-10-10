@@ -39,7 +39,7 @@ class SignupComponent extends Component {
         const pw = refs.pw.state.value;
 
         firebase.auth().createUserWithEmailAndPassword( email, pw )
-            .then( browserHistory.push('/') );
+            .then( browserHistory.push('/feature') );
     }
 
     render() {
@@ -48,15 +48,16 @@ class SignupComponent extends Component {
         return (
             <Paper
                 style={ {
-                    width: '100%',
+                    width: '90%',
                     maxWidth: 700,
                     margin: 'auto',
-                    padding: 20,
+                    padding: 10,
                     marginTop: 20
                 } }
                 zDepth={ 2 }
             >
                 <center>
+                    <center className="welcome-message">Let's Get Started</center>
                     <Formsy.Form
                         onValid={ () => this.enableButton(self) }
                         onInvalid={ () => this.disableButton(self) }
@@ -65,7 +66,7 @@ class SignupComponent extends Component {
                     >
                         <FormsyText
                             hintText="First Name"
-                            floatingLabelText="Hi! What's your name?"
+                            floatingLabelText="What's your name?"
                             name="First Name"
                             validations="isWords"
                             validationError="Please use letters only"
@@ -85,24 +86,26 @@ class SignupComponent extends Component {
                         <FormsyText
                             floatingLabelText="Password"
                             type="password"
+                            name="password"
                             ref="pw"
-                            name="Password"
                             required
                         />
                         <br />
                         <FormsyText
                             floatingLabelText="Verify Password"
                             type="password"
-                            name="Verify Password"
+                            name="repeated_password"
+                            validations="equalsField:password"
                             required
                         />
                         <br />
                         <br />
+                        <br />
                         <RaisedButton
+                            className="submit"
                             label={ 'Submit' }
                             primary={ true }
                             type="submit"
-                            disabled={ !this.state.canSubmit }
                         />
                     </Formsy.Form>
                 </center>

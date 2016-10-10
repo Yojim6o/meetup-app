@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import { browserHistory } from 'react-router';
+import * as firebase from 'firebase';
 
 class WelcomeComponent extends Component {
+
+    constructor() {
+        super();
+
+        this.state = {
+            loggedIn: (null !== firebase.auth().currentUser)
+        };
+    }
 
     submit(route) {
         browserHistory.push(`/${route}`);
@@ -10,20 +19,15 @@ class WelcomeComponent extends Component {
 
     render() {
         return (
-            <div className="centered content">
-                <center className="welcome-message">Welcome!</center>
+            <center className="centered content">
+                <div className="welcome-message">Welcome!</div>
                 <RaisedButton
                     className="button"
-                    label="Sign In"
-                    onClick={ ()=> this.submit('signin') }
-                />
-                <RaisedButton
-                    className="button"
-                    label="Sign Up"
+                    label="Events Near You"
                     primary={true}
-                    onClick={ ()=> this.submit('signup') }
+                    onClick={ ()=> this.submit('feature') }
                 />
-            </div>
+            </center>
         );
     }
 };

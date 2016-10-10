@@ -74,6 +74,11 @@ class HeaderComponent extends Component {
                     {
                         this.state.loggedIn ?
                             <div>
+                                <Link to="/" className="link">
+                                    <MenuItem onTouchTap={ this.handleClose }>
+                                        Home
+                                    </MenuItem>
+                                </Link>
                                 <Link to="/feature" className="link">
                                     <MenuItem onTouchTap={ this.handleClose }>
                                         Events
