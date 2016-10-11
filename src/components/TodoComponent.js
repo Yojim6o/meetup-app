@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 class TodoComponent extends Component {
 
     renderList(self) {
-        return this.props.items.map((item, index)=> {
+        return this.props.events.map((event, index)=> {
             return (
                 <li key={ index }>
-                    { item.text }
+                    { event.text }
                     <span
                         onClick={
-                            self.props.removeItem.bind(null, item['.key'])
+                            () => self.props.removeEvent(event['.key'])
                         }
                         style={
                             { color: 'red', marginLeft: '10px', cursor: 'pointer' }

@@ -33,12 +33,13 @@ class SigninComponent extends Component {
         const pw = refs.pw.state.value;
 
         firebase.auth().signInWithEmailAndPassword(email, pw).then(result => {
-            browserHistory.push('/feature')
+            browserHistory.push('/feature');
 
             // User signed in!
             console.log('User signed in!');
             // var uid = result.user.uid;
         }).catch(error => {
+            debugger;
             this.setState({error: error});
         });
     }
